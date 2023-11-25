@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { ITodoSchema, TodoModel, TodoSchema, TodoWithId } from "../models/todo.model";
+import { ObjectId } from "mongodb";
 
 export async function getTodos(req: Request, res: Response<Array<TodoWithId>>, next: NextFunction) {
   try {
@@ -32,6 +33,21 @@ export async function createTodo(req: Request<ITodoSchema>, res: Response<string
     }
 
   } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getTodo(req: Request, res: Response, next: NextFunction) {
+  try {
+
+    const todo = await TodoModel.findOne({ _id: new ObjectId(req.params.id) });
+    if (!todo) {
+      res.json({ message: 'Todo doesn\'t exit' });
+    }
+    res.json(todo)
+  }
+
+  catch (error) {
     console.log(error)
   }
 }
