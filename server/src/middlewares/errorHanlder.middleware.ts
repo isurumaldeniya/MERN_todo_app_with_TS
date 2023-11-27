@@ -19,7 +19,6 @@ export default function errorHandler(
   res.status(statusCode);
   const errorList: Array<object> = [];
   if (error instanceof ZodError) {
-    console.log(error);
     JSON.parse(error.message).map((error: zodError) => {
       errorList.push({
         fieldName: error.path[0],

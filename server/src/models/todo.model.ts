@@ -11,10 +11,10 @@ export const TodoSchema = zod.object({
 });
 
 export type ITodoSchema = zod.infer<typeof TodoSchema>;
-export type TodoWithId = WithId<ITodoSchema>;
+export type ITodoWithId = WithId<ITodoSchema>;
 
 //creating mongoose schema
-const Todo = new Schema<ITodoSchema>({
+export const Todo = new Schema<ITodoSchema>({
   title: { type: String, required: true },
   created_date: { type: Date, required: true },
   description: { type: String, required: true },

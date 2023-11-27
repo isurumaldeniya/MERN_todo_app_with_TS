@@ -5,8 +5,8 @@ dotenv.config()
 
 export default async function connectToMongoDB() {
   try {
-    await mongoose.connect('mongodb://localhost:27017/to_app');
-    console.log('Connected to MongoDB');
+    const db =  mongoose.connect('mongodb://localhost:27017/todo_app');
+    return db;
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     throw error;
