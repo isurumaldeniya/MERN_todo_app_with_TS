@@ -7,6 +7,6 @@
       "sourceMap": true,
       "strict": true
     },
-  "include": ["src/**/*.ts", "test/simple.test.ts"],
+  "include": ["src/**/*.ts", "test/simple.test.ts", "test/runAfterAllTests.ts"],
   "exclude": ["node_modules"],
 }
