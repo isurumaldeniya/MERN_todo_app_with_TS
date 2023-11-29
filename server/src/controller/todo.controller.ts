@@ -1,5 +1,9 @@
 import { Response, Request, NextFunction } from 'express';
-import { ITodoSchema, TodoModel, ITodoWithId } from '../models/todo.model';
+import {
+  ITodoSchema,
+  TodoModel,
+  ITodoWithId,
+} from '../models/todo.model';
 import { IParamsWithId } from '../interfaces/ParamsWithId';
 
 export async function getTodos(
@@ -63,6 +67,25 @@ export async function updateTodo(
       throw new Error('Todo Not Found');
     }
     res.json(todo);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteTodo(
+  req: Request<IParamsWithId, ITodoWithId, Record<string, never>>,
+  res: Response<ITodoWithId>,
+  next: NextFunction
+) {
+  try {
+    const deletedTodo = await TodoModel.findOneAndDelete({
+      _id: req.params.id,
+    });
+
+    if (!deletedTodo) {
+      throw new Error('Todo Not Found!');
+    }
+    res.json(deletedTodo);
   } catch (error) {
     next(error);
   }
