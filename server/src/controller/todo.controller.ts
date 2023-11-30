@@ -83,6 +83,7 @@ export async function deleteTodo(
     });
 
     if (!deletedTodo) {
+      res.status(404);
       throw new Error('Todo Not Found!');
     }
     res.json(deletedTodo);

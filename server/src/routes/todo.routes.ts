@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   createTodo,
+  deleteTodo,
   getTodo,
   getTodos,
   updateTodo,
@@ -19,5 +20,6 @@ router.put(
   validateRequest({ params: ParamsWithId, body: TodoSchema }),
   updateTodo
 );
+router.delete('/:id', validateRequest({ params: ParamsWithId }), deleteTodo);
 
 export default router;

@@ -4,7 +4,6 @@ import connectToMongoDB from '../src/database/connect';
 // import request = require('supertest');
 import * as request from 'supertest';
 import { ObjectId } from 'mongodb';
-import mongoose from 'mongoose';
 
 type ErrorObject = {
   fieldName: string;
@@ -15,11 +14,9 @@ type ErrorResponse = {
   stack: string;
 };
 
-// const db = await connectToMongoDB();
-let db: typeof mongoose;
 beforeAll(async () => {
   try {
-    db = await connectToMongoDB();
+    await connectToMongoDB();
     await TodoModel.deleteMany({});
   } catch (error) {}
 });
@@ -89,25 +86,83 @@ describe('POST api/v1/todos', () => {
           expect(response.body.message[0].fieldName).toBe('title');
         }));
   });
+});
 
-  describe('GET /api/v1/todos/:id', () => {
-    describe('when the id is valid', () => {
-      it('it should get the todo with 200', () => {
-        request(app)
-          .get(`/api/v1/todos/${id}`)
-          .set('Accept', 'Application-json')
-          .expect('Content-type', /json/)
-          // .expect(200)
-          .then((response: { body: ITodoWithId }) => {
-            expect(response.body).toMatchObject({
-              title: 'First Todo ever',
-              description: 'This is a valid test todo',
-              user: 'Isuru Maldeniya',
-              done: false,
-              __v: 0,
-            });
+describe('GET /api/v1/todos/:id', () => {
+  describe('when the id is valid', () => {
+    it('it should get the todo with 200', () => {
+      request(app)
+        .get(`/api/v1/todos/${id}`)
+        .set('Accept', 'Application-json')
+        .expect('Content-type', /json/)
+        .expect(200)
+        .then((response: { body: ITodoWithId }) => {
+          expect(response.body).toMatchObject({
+            title: 'First Todo ever',
+            description: 'This is a valid test todo',
+            user: 'Isuru Maldeniya',
+            done: false,
+            __v: 0,
           });
-      });
+        });
+    });
+  });
+
+  describe('when the id is in invalid format', () => {
+    it('it should get an error response', () => {
+      request(app)
+        .get(`/api/v1/todos/123`)
+        .set('Accept', 'Application-json')
+        .expect('Content-type', /json/)
+        .expect(422)
+        .then((response: { body: object }) => {
+          expect(response.body).toHaveProperty('message');
+        });
+    });
+  });
+  describe('when the id is not found', () => {
+    it('it should get the error response with not found message', (done) => {
+      request(app)
+        .get(`/api/v1/todos/6566d20000e6eb32c9678027`)
+        .set('Accept', 'Application-json')
+        .expect('Content-type', /json/)
+        .expect(404, done);
+    });
+  });
+});
+
+describe('DELETE /api/v1/todos', () => {
+  describe('when delete todo is called with invalid id', () => {
+    it('it should get an error response', (done) => {
+      request(app)
+        .delete(`/api/v1/todos/123`)
+        .set('Accept', 'Application-json')
+        .expect('Content-type', /json/)
+        .expect(422, done);
+    });
+  });
+
+  describe('when delete todo is called with wrong id', () => {
+    it('it should get the error response with not found message', (done) => {
+      request(app)
+        .delete(`/api/v1/todos/6566d20000e6eb32c9678027`)
+        .set('Accept', 'Application-json')
+        .expect('Content-type', /json/)
+        .expect(404, done);
+    });
+  });
+
+  describe('when delete todo is called with valid id', () => {
+    it('it should delete the todo and give the todo', (done) => {
+      console.log(id)
+      request(app)
+        .delete(`/api/v1/todos/${id}`)
+        .set('Accept', 'Application-json')
+        .expect('Content-type', /json/)
+        .expect(200, done)
+        // .then((response: { body: ITodoWithId }) => {
+        //   expect(response.body).toBe({});
+        // });
     });
   });
 });
