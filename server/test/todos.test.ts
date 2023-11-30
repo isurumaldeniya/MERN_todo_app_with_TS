@@ -154,15 +154,12 @@ describe('DELETE /api/v1/todos', () => {
 
   describe('when delete todo is called with valid id', () => {
     it('it should delete the todo and give the todo', (done) => {
-      console.log(id)
+      console.log(id);
       request(app)
         .delete(`/api/v1/todos/${id}`)
         .set('Accept', 'Application-json')
         .expect('Content-type', /json/)
-        .expect(200, done)
-        // .then((response: { body: ITodoWithId }) => {
-        //   expect(response.body).toBe({});
-        // });
+        .expect(200, done);
     });
   });
 });
