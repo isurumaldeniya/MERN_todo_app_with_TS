@@ -1,6 +1,6 @@
-// import connectToMongoDB from '../src/database/connect'
+import connectToMongoDB from '../src/database/connect'
 
-// global.afterAll(async () => {
-//   const db = await connectToMongoDB();
-//   db.disconnect();
-// });
+global.afterAll(async () => {
+  const db = await connectToMongoDB();
+  db.disconnect();
+});
