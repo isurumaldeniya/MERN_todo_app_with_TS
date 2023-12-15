@@ -4,9 +4,6 @@ import {
   Container,
   FormControl,
   FormGroup,
-  List,
-  ListItem,
-  ListItemText,
   Stack,
   TextField,
   Typography,
@@ -14,7 +11,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
 
 const TodoSchema = z.object({
   title: z.string().min(1, { message: 'Name is required.' }),
@@ -34,20 +30,19 @@ type Todo = {
 };
 
 const Todo = () => {
-  const [todoList, setTodoList] = useState<Array<Todo>>([]);
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/api/v1/todos', {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((todos: Array<Todo>) => {
+  //       setTodoList(todos);
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    fetch('http://localhost:8000/api/v1/todos', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((todos: Array<Todo>) => {
-        setTodoList(todos);
-      });
-  }, []);
   const {
     register,
     handleSubmit,
@@ -171,26 +166,6 @@ const Todo = () => {
             </div>
           </form>
         </Box>
-        <div
-          style={{ display: 'flex', justifyContent: 'center', paddingTop: 30 }}
-        >
-          <Typography variant="h5">Todo List</Typography>
-        </div>
-        <List>
-          {todoList.map((todo) => {
-            return (
-              <ListItem key={todo._id}>
-                <Stack direction="row">
-                  <Typography variant="h6">Title</Typography>
-                  <ListItemText sx={{ paddingLeft: 5 }}>
-                    ----- {todo.title}
-                  </ListItemText>
-                </Stack>
-                <ListItemText>{todo.description}</ListItemText>
-              </ListItem>
-            );
-          })}
-        </List>
       </Stack>
     </Container>
   );

@@ -5,6 +5,7 @@ import { ZodError } from 'zod';
 export default function validateRequest(validators: RequestValidators) {
   return async function (req: Request, res: Response, next: NextFunction) {
     try {
+      console.log(req.body)
       if (validators.body) {
         req.body = await validators.body.parseAsync(req.body);
       }
