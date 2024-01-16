@@ -11,6 +11,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
 
 const TodoSchema = z.object({
   title: z.string().min(1, { message: 'Name is required.' }),
@@ -30,24 +31,13 @@ type Todo = {
 };
 
 const Todo = () => {
-  // useEffect(() => {
-  //   fetch('http://localhost:8000/api/v1/todos', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((todos: Array<Todo>) => {
-  //       setTodoList(todos);
-  //     });
-  // }, []);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ITodo>({ resolver: zodResolver(TodoSchema) });
+
+  const navigate = useNavigate();
 
   function handleFormSubmit(data: ITodo) {
     console.log(JSON.stringify(data));
@@ -62,7 +52,7 @@ const Todo = () => {
       .then((data) => {
         console.log(data.payload);
       });
-
+    navigate('/todos');
     console.log(response);
   }
   return (
@@ -87,7 +77,7 @@ const Todo = () => {
             padding: 2,
           }}
         >
-          <Typography>New Todo</Typography>
+          <Typography>New Task</Typography>
         </Box>
         <Box
           sx={{

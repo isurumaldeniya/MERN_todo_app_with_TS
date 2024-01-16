@@ -1,10 +1,11 @@
 import SideDrawer from './components/Drawer';
-import Todo from './components/Todos/Todo';
+import Todo from './components/Todos/NewTask';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import TodoList from './components/Todos/TaskList';
 
 const router = createBrowserRouter([
   {
-    path: '/todo',
+    path: '/',
     element: (
       <div>
         <SideDrawer />
@@ -14,6 +15,17 @@ const router = createBrowserRouter([
       </div>
     ),
   },
+  {
+    path: '/todos',
+    element: (
+      <div>
+        <SideDrawer />
+        <main>
+          <TodoList />;
+        </main>
+      </div>
+    ),
+  }
 ]);
 
 function App() {
