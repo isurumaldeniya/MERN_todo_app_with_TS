@@ -1,18 +1,14 @@
-import {
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import { Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { IconContext } from 'react-icons';
 import { FcPlus } from 'react-icons/fc';
-import { FcSearch } from "react-icons/fc";
-import { FcFinePrint } from "react-icons/fc";
-import { FcCalendar } from "react-icons/fc";
-import { FcList } from "react-icons/fc";
+import { FcSearch } from 'react-icons/fc';
+import { FcFinePrint } from 'react-icons/fc';
+import { FcCalendar } from 'react-icons/fc';
+import { FcList } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
 function SideDrawer() {
+  const navigate = useNavigate();
   return (
     <Drawer
       open={true}
@@ -29,11 +25,11 @@ function SideDrawer() {
             color: '#1B512D',
             textTransform: 'none',
             width: 165,
-            marginLeft: 0.75
+            marginLeft: 0.75,
           },
         }}
       >
-        <Button>
+        <Button onClick={() => navigate('/')}>
           <ListItem>
             <IconContext.Provider value={{ size: '25' }}>
               <FcPlus />
@@ -41,7 +37,7 @@ function SideDrawer() {
             <ListItemText sx={{ paddingLeft: 2 }}>Add Task</ListItemText>
           </ListItem>
         </Button>
-        <Button>
+        <Button onClick={() => navigate('/todos')}>
           <ListItem>
             <IconContext.Provider value={{ size: '25' }}>
               <FcList />
